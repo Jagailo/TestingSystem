@@ -99,16 +99,14 @@ namespace StudentTestingSystem.Areas.SuperAdmin.Controllers
         // POST: /SuperAdmin/Profile/Delete
         [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
-        public async Task<ActionResult> Delete(Guid profileId, string role)
+        public async Task Delete(Guid profileId)
         {
             string userId = await _profileSuperAdminService.GetUserIdByProfileIdAsync(profileId);
             await _profileSuperAdminService.DeleteProfileAsync(profileId);
-            DeleteUserInIdentity(userId);
-
-            return RedirectToAction("Index", "Profile", new { roleName = role });
+            await DeleteUserInIdentity(userId);
         }
 
-        private async void DeleteUserInIdentity(string id)
+        private async Task DeleteUserInIdentity(string id)
         {
             var user = await UserManager.FindByIdAsync(id);
             var logins = user.Logins;

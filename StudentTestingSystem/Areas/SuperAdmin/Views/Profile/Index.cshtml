@@ -101,7 +101,7 @@ else
 
     <script>
         $('#deleteModal').on('click', '.btn-ok', function (e) {
-            $.post('/SuperAdmin/Profile/Delete?profileId=' + $(this).data('itemId') + '&role=@Model.Role').then(function () {
+            $.post('/SuperAdmin/Profile/Delete?profileId=' + $(this).data('itemId')).then(function () {
                 window.location.href = '@Url.Action("Index", "Profile", new { Area = "SuperAdmin", roleName = Model.Role })';
             });
         });
