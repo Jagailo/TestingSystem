@@ -1,0 +1,95 @@
+﻿<div class="sidebar" data-color="white" data-active-color="danger">
+    <div class="logo">
+        <a href="@Url.Action("Index", "Home", new { Area = "" })" class="simple-text logo-mini">
+            <div class="logo-image-small">
+                <img src="~/Content/assets/img/logo_128.png">
+            </div>
+        </a>
+        <a href="@Url.Action("Index", "Home", new { Area = "" })" class="simple-text logo-normal">Testing System</a>
+    </div>
+    <div class="sidebar-wrapper">
+        <ul class="nav">
+            <li id="homeMenuItem">
+                <a href="@Url.Action("Index", "Home", new { Area = "" })">
+                    <i class="fas fa-home"></i>
+                    <p>Home</p>
+                </a>
+            </li>
+            @if (this.User.IsInRole("User"))
+            {
+                <li id="subjectMenuItem">
+                    <a href="@Url.Action("Index", "Subject", new { Area = "Student" })">
+                        <i class="fas fa-book"></i>
+                        <p>Subjects</p>
+                    </a>
+                </li>
+                <li id="resultMenuItem">
+                    <a href="@Url.Action("Index", "Result", new { Area = "Student" })">
+                        <i class="fas fa-bars"></i>
+                        <p>Results</p>
+                    </a>
+                </li>
+                <li id="profileMenuItem">
+                    <a href="@Url.Action("Details", "Profile", new { Area = "Student" })">
+                        <i class="fas fa-user-circle"></i>
+                        <p>Profile</p>
+                    </a>
+                </li>
+            }
+            @if (this.User.IsInRole("Admin"))
+            {
+                <li id="subjectMenuItem">
+                    <a href="@Url.Action("Index", "Subject", new { Area = "Admin" })">
+                        <i class="fas fa-book"></i>
+                        <p>Subjects</p>
+                    </a>
+                </li>
+                <li id="groupMenuItem">
+                    <a href="@Url.Action("Index", "Group", new { Area = "Admin" })">
+                        <i class="fas fa-users"></i>
+                        <p>Groups</p>
+                    </a>
+                </li>
+                <li id="profileMenuItem">
+                    <a href="@Url.Action("Index", "Teacher", new { Area = "Admin" })">
+                        <i class="fas fa-user-circle"></i>
+                        <p>Profile</p>
+                    </a>
+                </li>
+            }
+            @if (this.User.IsInRole("SuperAdmin"))
+            {
+                <li id="subjectMenuItem">
+                    <a href="@Url.Action("Index", "Subject", new { Area = "SuperAdmin" })">
+                        <i class="fas fa-book"></i>
+                        <p>Subjects</p>
+                    </a>
+                </li>
+                <li id="studentMenuItem">
+                    <a href="@Url.Action("Index", "Profile", new { roleName = "User", Area = "SuperAdmin" })">
+                        <i class="fas fa-user-graduate"></i>
+                        <p>Students</p>
+                    </a>
+                </li>
+                <li id="teacherMenuItem">
+                    <a href="@Url.Action("Index", "Profile", new { roleName = "Admin", Area = "SuperAdmin" })">
+                        <i class="fas fa-user-tie"></i>
+                        <p>Teachers</p>
+                    </a>
+                </li>
+                <li id="groupMenuItem">
+                    <a href="@Url.Action("Index", "Group", new { Area = "SuperAdmin" })">
+                        <i class="fas fa-users"></i>
+                        <p>Groups</p>
+                    </a>
+                </li>
+                <li id="profileMenuItem">
+                    <a href="@Url.Action("Index", "Teacher", new { Area = "Admin" })">
+                        <i class="fas fa-user-circle"></i>
+                        <p>Profile</p>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

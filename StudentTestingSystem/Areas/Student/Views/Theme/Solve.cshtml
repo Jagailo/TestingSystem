@@ -1,0 +1,198 @@
+﻿@using StudentTestingSystem.Areas.Student.Models.Question
+@model QuestionViewModel
+@{
+    ViewBag.Title = Model.ThemeTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var endTime = (DateTime)Session["TokenExpiration"];
+    var answers = (SessionModel)Session["Answers"];
+    var timeRemaining = TimeSpan.FromTicks(endTime.Ticks - DateTime.UtcNow.Ticks).TotalSeconds.ToString("#");
+    var nextQuestionNumber = Model.QuestionNumber != Model.TotalQuestionsCount ? Model.QuestionNumber + 1 : 1;
+    var previousQuestionNumber = Model.QuestionNumber != 1 ? Model.QuestionNumber - 1 : Model.TotalQuestionsCount;
+    var selectedAnswerId = Model.Options?.FirstOrDefault(x => x.IsCorrectAnswer)?.AnswerId;
+
+    int q1 = Model.QuestionNumber - 2 > 0 ? Model.QuestionNumber - 2 : Model.QuestionNumber - 2 == 0 ? Model.TotalQuestionsCount : Model.TotalQuestionsCount - 1;
+    int q2 = Model.QuestionNumber - 1 > 0 ? Model.QuestionNumber - 1 : Model.TotalQuestionsCount;
+    int q3 = Model.QuestionNumber;
+    int q4 = Model.QuestionNumber + 1 <= Model.TotalQuestionsCount ? Model.QuestionNumber + 1 : 1;
+    int q5 = Model.QuestionNumber + 2 <= Model.TotalQuestionsCount ? Model.QuestionNumber + 2 : 2 - (Model.TotalQuestionsCount - Model.QuestionNumber);
+}
+
+@section Styles {
+    <link href="@Url.Content("~/Content/viewer.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<style>
+    .form-check .form-check-label {
+        padding-left: 30px;
+        color: #252422;
+        font-size: 14px;
+    }
+    .form-check-input {
+        margin-top: 0.35rem;
+    }
+    .form-check {
+        margin-bottom: .2rem;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-5">
+        <div class="card ">
+            <div class="card-body ">
+                <div class="text-center">
+                    <span class="question-title-label">Question</span>
+                </div>
+                <div class="text-center">
+                    <span class="question-value-label">@Model.QuestionNumber / @Model.TotalQuestionsCount</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-7">
+        <div class="card ">
+            <div class="card-body ">
+                <div class="text-center">
+                    <span class="question-title-label">Time Remaining</span>
+                </div>
+                <div class="text-center">
+                    <span class="question-value-label">
+                        <span id="hourRemaining"></span>:<span id="minRemaining"></span>:<span id="secRemaining"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card ">
+            <div class="card-header ">
+                <h5 class="card-title">@ViewBag.Title</h5>
+            </div>
+            <div class="card-body " onload="startTick()">
+                @using (Html.BeginForm("Solve", "Theme", FormMethod.Post))
+                {
+                    <input type="hidden" name="themeId" id="themeId" value="@Model.ThemeId" />
+                    <input type="hidden" name="questionId" value="@Model.QuestionId" />
+                    <input type="hidden" name="questionNumber" value="@Model.QuestionNumber" />
+                    <input type="hidden" name="selectedAnswerId" id="selectedAnswerId" value="@selectedAnswerId" />
+
+                    <label for="questionTitle">Question</label>
+                    <div id="questionTitle" style="margin:0 0 20px 10px;">@Model.Title</div>
+
+                    if (Model.Image != null)
+                    {
+                        <div class="text-center" style="margin-bottom:20px;">
+                            <img id="currentImage" src="@Model.Image" class="img-fluid rounded" />
+                        </div>
+                    }
+
+                    <label for="answersBlock">Answers</label>
+                    <div id="answersBlock">
+                        @foreach (var option in Model.Options)
+                        {
+                            <div class="form-check">
+                                @if (option.IsCorrectAnswer)
+                                {
+                                    <label class="form-check-label" for="@option.AnswerId">
+                                        <input type="radio" class="form-check-input" id="@option.AnswerId" name="answers" value="@option.AnswerId" checked>@option.Title
+                                    </label>
+                                }
+                                else
+                                {
+                                    <label class="form-check-label" for="@option.AnswerId">
+                                        <input type="radio" class="form-check-input" id="@option.AnswerId" name="answers" value="@option.AnswerId">@option.Title
+                                    </label>
+                                }
+                            </div>
+                        }
+                    </div>
+
+                    <button class="btn btn-primary" id="recordAnswer">Save the answer</button>
+                }
+
+                @if (Model.TotalQuestionsCount > 1)
+                {
+                    <nav aria-label="Pagination of questions">
+                        <ul class="pagination justify-content-center" style="margin-top:1rem;">
+                            @if (Model.TotalQuestionsCount <= 5)
+                            {
+                                for (int i = 1; i <= Model.TotalQuestionsCount; i++)
+                                {
+                                    if (i != Model.QuestionNumber)
+                                    {
+                                        <li class="page-item"><a class="page-link" href="@Url.Action("Solve", "Theme", new { themeId = Model.ThemeId, questionNumber = i })">@i</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item active"><span class="page-link">@i<span class="sr-only">(current)</span></span></li>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Solve", "Theme", new { themeId = Model.ThemeId, questionNumber = 1 })">First</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Solve", "Theme", new { themeId = Model.ThemeId, questionNumber = previousQuestionNumber })"><i class="fas fa-caret-left"></i></a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="@Url.Action("Solve", "Theme", new { themeId = Model.ThemeId, questionNumber = q1 })">@q1</a></li>
+                                <li class="page-item"><a class="page-link" href="@Url.Action("Solve", "Theme", new { themeId = Model.ThemeId, questionNumber = q2 })">@q2</a></li>
+                                <li class="page-item active"><span class="page-link">@q3<span class="sr-only">(current)</span></span></li>
+                                <li class="page-item"><a class="page-link" href="@Url.Action("Solve", "Theme", new { themeId = Model.ThemeId, questionNumber = q4 })">@q4</a></li>
+                                <li class="page-item"><a class="page-link" href="@Url.Action("Solve", "Theme", new { themeId = Model.ThemeId, questionNumber = q5 })">@q5</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Solve", "Theme", new { themeId = Model.ThemeId, questionNumber = nextQuestionNumber })"><i class="fas fa-caret-right"></i></a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                }
+
+                @if (@Model.TotalQuestionsCount == answers.Answers.Count)
+                {
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 col-md-4 col-sm-5">
+                            @using (Html.BeginForm("Result", "Result", FormMethod.Post))
+                            {
+                                <input type="hidden" name="themeId" value="@Model.ThemeId" />
+                                <button class="btn btn-success btn-block" id="submitTest">Finish the test</button>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#subjectMenuItem").addClass("active");
+</script>
+
+@Scripts.Render("~/Scripts/progressbar/progressbar.min.js")
+@Scripts.Render("~/Scripts/viewer/viewer.js")
+@Scripts.Render("~/Areas/Student/Scripts/Theme/SolveView.js")
+
+<script>
+    var remainingSeconds = @timeRemaining;
+    var secondsCounter = remainingSeconds % 60;
+    var minutesCounter = (remainingSeconds % 3600) / 60;
+    var ajaxURL = '@Url.Action("AutoResult", "Result")';
+    startTick();
+
+    var imageBlock = document.getElementById('currentImage');
+    if (imageBlock != null) {
+        var viewer = new Viewer(imageBlock, {
+            button: false,
+            navbar: false,
+            title: false,
+            toolbar: false,
+            tooltip: false,
+            fullscreen: false,
+            zoomRatio: 0.3
+        });
+    }
+</script>

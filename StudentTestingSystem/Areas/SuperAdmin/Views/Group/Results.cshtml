@@ -1,0 +1,96 @@
+﻿@using StudentTestingSystem.Helpers
+@model StudentTestingSystem.Areas.SuperAdmin.Models.Results.IndexViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("_Breadcrumb", Model.Breadcrumb)
+
+@if (!Model.Results.Any())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card ">
+                <div class="card-header ">
+                    <h5 class="card-title">@ViewBag.Title</h5>
+                </div>
+                <div class="card-body ">
+                    <div class="alert alert-warning" role="alert">This group has no results.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card ">
+                <div class="card-header ">
+                    <h5 class="card-title">@ViewBag.Title</h5>
+                </div>
+                <div class="card-body ">
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteGroupResultsModal" data-item-id="@Model.GroupId" data-item-description="@Model.GroupId">Delete results</button>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                            <th class="text-center">Subject</th>
+                            <th class="text-center">Theme</th>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Results)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.Theme)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Subject)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="paginationFooter" class="card-footer ">
+                    <hr>
+                    <div class="stats">
+                        @Html.PageLinks(Model.PageInfo, x => Url.Action("Results", new { page = x }))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteGroupResultsModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">Are you sure you want to delete group results?</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" value="Delete" class="btn btn-danger btn-ok" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#deleteGroupResultsModal').on('click', '.btn-ok', function (e) {
+            $.post('/SuperAdmin/Group/DeleteResultsAsync?groupId=' + $(this).data('itemId')).then(function () {
+                window.location.href = '@Url.Action("Index", "Group")';
+            });
+        });
+
+        $('#deleteGroupResultsModal').on('show.bs.modal', function (e) {
+            var data = $(e.relatedTarget).data();
+            $('.btn-ok', this).data('itemId', data.itemId);
+        });
+    </script>
+}
+
+<script>
+    $("#groupMenuItem").addClass("active");
+</script>

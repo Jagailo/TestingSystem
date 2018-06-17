@@ -1,0 +1,43 @@
+﻿@model StudentTestingSystem.Areas.Student.Models.Profile.ProfileDetailsViewModel
+@{
+    ViewBag.Title = "Your account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card ">
+            <div class="card-header ">
+                <h5 class="card-title">@ViewBag.Title</h5>
+            </div>
+            <div class="card-body">
+                @if (Request.Params["Message"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        @Request.Params["Message"]
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+
+                <dl class="row">
+                    <dt class="col-sm-2">Full name</dt>
+                    <dd class="col-sm-10">@Html.DisplayFor(model => model.FullName)</dd>
+
+                    <dt class="col-sm-2">Email address</dt>
+                    <dd class="col-sm-10">@Html.DisplayFor(model => model.Email)</dd>
+
+                    <dt class="col-sm-2">Group</dt>
+                    <dd class="col-sm-10">@Model.GroupNumber (@Model.Group)</dd>
+                </dl>
+
+                @Html.ActionLink("Change password", "ChangePassword", "Manage", new { Area = "" }, new { @class = "btn btn-danger" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#profileMenuItem").addClass("active");
+</script>

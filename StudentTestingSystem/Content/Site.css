@@ -1,0 +1,219 @@
+﻿@font-face {
+    font-family: Montserrat;
+    src: url(webfonts/Montserrat-ExtraLight.ttf);
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: Montserrat;
+    src: url(webfonts/Montserrat-Regular.ttf);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Montserrat;
+    src: url(webfonts/Montserrat-Bold.ttf);
+    font-weight: 700;
+}
+
+a {
+    margin-right: 0;
+}
+
+.off-canvas-sidebar .sidebar-wrapper,
+.sidebar .sidebar-wrapper {
+    overflow: hidden;
+}
+
+.table-responsive {
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+.page-item.active .page-link {
+    background-color: #51cbce;
+    border-color: #51cbce;
+}
+
+.page-link {
+    color: #51cbce;
+}
+
+.page-link:hover {
+    color: #34b5b8;
+}
+
+.text-muted {
+    font-size: .8571em;
+    margin-bottom: 5px;
+    color: #EF8157!important;
+}
+
+.breadcrumb {
+    background-color: #FFFFFF;
+    box-shadow: 0 6px 10px -4px rgba(0,0,0,.10);
+}
+
+.navbar-brand {
+    text-overflow: ellipsis;
+}
+
+.ps-container.ps-active-x > .ps-scrollbar-x-rail, .ps-container.ps-active-y > .ps-scrollbar-y-rail {
+    z-index: 1029;
+}
+
+#file {
+    max-width: 100%;
+}
+
+#currentImage {
+    max-height: 500px;
+}
+
+#currentImage:hover {
+    cursor: pointer;
+}
+
+#formErrors {
+    display: none;
+}
+
+.formBlock {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px 20px 4px 20px;
+}
+
+.btn-question {
+    padding: .375rem .75rem !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
+}
+
+.input-group-btn:not(:first-child):not(:last-child), .input-group .form-control:not(:first-child):not(:last-child) {
+    border-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border: 1px solid #ddd;
+    border-right: none;
+}
+
+.input-group .form-control:last-child {
+    border: 1px solid #ddd;
+}
+
+.form-group input[type=file] {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    margin: 0;
+    opacity: 0;
+}
+
+.custom-file-label::after {
+    padding: 0.563rem 0.75rem;
+}
+
+.custom-file-label {
+    padding: 0.563rem 0.75rem;
+}
+
+.custom-file-input:hover {
+    cursor: pointer;
+}
+
+button[type="button"] {
+    outline: none;
+}
+
+dl.row dd {
+    margin-bottom: 25px;
+}
+
+.page-link:focus {
+    box-shadow: none;
+}
+
+.question-title {
+    max-height: 0;
+}
+
+.question-options {
+    display: contents;
+}
+
+.question-body {
+    display: contents;
+}
+
+select {
+    padding: 8px 10px;
+}
+
+#markBar {
+    margin: 5px;
+    width: 150px;
+    height: 150px;
+    position: relative;
+    display: inline-flex;
+}
+
+.mark-label {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    color: #b4b2af;
+    letter-spacing: 2px;
+}
+
+.footer-link {
+    color: #2C2C2C;
+}
+
+.additional-information {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px 20px;
+    margin: 0 1px;
+}
+
+.navbar.navbar-transparent .nav-item .nav-link:not(.btn):hover {
+    color: #66615B;
+}
+
+.navbar-brand-sup {
+    font-size: 60%;
+    top: -.7em;
+}
+
+.question-title-label {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    color: #b4b2af;
+    letter-spacing: 2px;
+}
+
+.question-value-label {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+td .btn {
+    margin-top: 2px !important;
+    margin-bottom: 2px !important;
+}
+
+.card-body p:first-letter {
+    padding-left: 1.2rem;
+}
+
+.card-body p {
+    margin-bottom: .5rem;
+}
+
+.username-link:hover {
+    text-decoration: none;
+    cursor: default;
+}

@@ -1,0 +1,53 @@
+﻿@model StudentTestingSystem.Areas.Admin.Models.Student.StudentProfileDetailsViewModel
+@{
+    ViewBag.Title = $"Details of the student \"{Model.FullName}\"";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card ">
+            <div class="card-header ">
+                <h5 class="card-title">@ViewBag.Title</h5>
+                <p class="card-category">Group @Model.Group.Number</p>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-2">First name</dt>
+                    <dd class="col-sm-10">@Html.DisplayFor(model => model.FirstName)</dd>
+
+                    <dt class="col-sm-2">Last name</dt>
+                    <dd class="col-sm-10">@Html.DisplayFor(model => model.LastName)</dd>
+
+                    <dt class="col-sm-2">Email address</dt>
+                    <dd class="col-sm-10"><a href="mailto:@(Model.Email)">@Html.DisplayFor(model => model.Email)</a></dd>
+
+                    @if (Model.Group != null)
+                    {
+                        <dt class="col-sm-2">Group title</dt>
+                        <dd class="col-sm-10">@Html.DisplayFor(model => model.Group.Title)</dd>
+
+                        <dt class="col-sm-2">Group number</dt>
+                        <dd class="col-sm-10">@Html.DisplayFor(model => model.Group.Number)</dd>
+                    }
+
+                    <dt class="col-sm-2">Registered</dt>
+                    <dd class="col-sm-10">@Html.DisplayFor(model => model.Created)</dd>
+                </dl>
+
+                @Html.ActionLink("Edit", "UpdateStudentProfile", new { profileId = Model.Id }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Reset password", "ResetPassword", new { profileId = Model.Id }, new { @class = "btn btn-danger" })
+            </div>
+            <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                    <i class="fas fa-chevron-left"></i> @Html.ActionLink("Back to list of students", "Index", new { groupId = Model.Group?.Id })<br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#groupMenuItem").addClass("active");
+</script>

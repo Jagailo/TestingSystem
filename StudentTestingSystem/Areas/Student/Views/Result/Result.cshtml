@@ -1,0 +1,115 @@
+﻿@model StudentTestingSystem.Areas.Student.Models.Result.ResultIndexViewModel
+@{
+    ViewBag.Title = "Test results";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    dl {
+        margin-top: 1rem;
+        margin-bottom: 0;
+    }
+
+    .btn-outline-primary {
+        border: 1px solid #65D1D4 !important;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card ">
+            <div class="card-header ">
+                <h5 class="card-title">@ViewBag.Title</h5>
+            </div>
+            <div class="card-body ">
+                @if (TempData["invalidToken"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @TempData["invalidToken"]
+                    </div>
+                }
+                @if (TempData["testTimeLineExpired"] != null)
+                {
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        @TempData["testTimeLineExpired"]
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+                <div class="text-center">
+                    <span class="mark-label">Mark</span>
+                </div>
+                <div class="text-center">
+                    <div id="markBar"></div>
+                </div>
+
+                <dl class="row">
+                    <dt class="col-sm-2">Theme</dt>
+                    <dd class="col-sm-10">@Html.DisplayFor(model => model.ThemeTitle)</dd>
+
+                    <dt class="col-sm-2">Total questions</dt>
+                    <dd class="col-sm-10">@Html.DisplayFor(model => model.AllQuestionsCount)</dd>
+
+                    <dt class="col-sm-2">Correct answers</dt>
+                    <dd class="col-sm-10">@Html.DisplayFor(model => model.CorrectAnswersCount)</dd>
+                </dl>
+
+                @if (Model.Directions.Any())
+                {
+                    <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#additionalInformation" aria-expanded="false" aria-controls="additionalInformation">
+                        Additional information for incorrect answers
+                    </button>
+
+                    <div class="collapse" id="additionalInformation">
+                        <div class="additional-information">
+                            <ul class="list-group list-group-flush">
+                                @foreach (var info in Model.Directions)
+                                {
+                                    <li class="list-group-item">@info</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                    @if (this.User.IsInRole("Admin"))
+                    {
+                        <i class="fas fa-chevron-left"></i> @Html.ActionLink("Back to list of questions", "Index", "Question", new { Area = "Admin", themeId = Model.ThemeId }, null)
+                    }
+                    else
+                    {
+                        <i class="fas fa-chevron-left"></i> @Html.ActionLink("Back to list of results", "Index")
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (this.User.IsInRole("Admin"))
+{
+    <script>
+        $("#subjectMenuItem").addClass("active");
+    </script>
+}
+else
+{
+    <script>
+        $("#resultMenuItem").addClass("active");
+    </script>
+}
+
+@Scripts.Render("~/Scripts/progressbar/progressbar.min.js")
+@Scripts.Render("~/Areas/Student/Scripts/Result/ResultView.js")
+
+<script>
+    var bad = '#EF8157';
+    var middling = '#FBC658';
+    var good = '#6BD098';
+
+    drawMark(@Model.Mark);
+</script>

@@ -1,0 +1,68 @@
+﻿@using StudentTestingSystem.Helpers
+@model StudentTestingSystem.Areas.Admin.Models.Student.IndexViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("_Breadcrumb", Model.Breadcrumb)
+
+@if (Model.Students.Count() == 0)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card ">
+                <div class="card-body ">
+                    <div class="alert alert-warning" role="alert">This group doesn't have students.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card ">
+                <div class="card-header ">
+                    <h5 class="card-title">@ViewBag.Title</h5>
+                    <p class="card-category">@ViewBag.SecondTitle</p>
+                </div>
+                <div class="card-body ">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                                <th class="text-center">№</th>
+                                <th class="text-center">Full name</th>
+                                <th class="text-center">Actions</th>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0, n = i + 1 + (Model.PageInfo.PageNumber - 1) * Model.PageInfo.PageSize; i < Model.Students.Count(); i++, n++)
+                                {
+                                    <tr>
+                                        <td class="text-center">@n</td>
+                                        <td>@Html.ActionLink($"{Model.Students.ElementAt(i).FirstName} {Model.Students.ElementAt(i).LastName}", "Details", new { profileId = Model.Students.ElementAt(i).Id }, null)</td>
+                                        <td class="text-center">
+                                            @Html.ActionLink("Results", "ProfileResults", "Result", new { profileId = Model.Students.ElementAt(i).Id }, new { @class = "btn btn-warning" })
+                                            @Html.ActionLink("Edit", "UpdateStudentProfile", new { profileId = Model.Students.ElementAt(i).Id }, new { @class = "btn btn-primary" })
+                                            @Html.ActionLink("Reset password", "ResetPassword", new { profileId = Model.Students.ElementAt(i).Id }, new { @class = "btn btn-danger" })
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="paginationFooter" class="card-footer ">
+                    <hr>
+                    <div class="stats">
+                        @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { groupId = Model.GroupId, page = x }))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $("#groupMenuItem").addClass("active");
+</script>

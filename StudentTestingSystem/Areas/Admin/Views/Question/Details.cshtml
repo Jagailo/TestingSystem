@@ -1,0 +1,80 @@
+﻿@model StudentTestingSystem.Services.TransportModels.Admin.Question.Response.QuestionResponse
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("~/Content/viewer.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<style>
+    .list-group-item-success {
+        z-index: 1100;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card ">
+            <div class="card-header ">
+                <h5 class="card-title">@ViewBag.Title</h5>
+                <p class="card-category">Theme "@Model.ThemeTitle"</p>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-2">Question</dt>
+                    <dd class="col-sm-10">@Html.DisplayFor(model => model.Title)</dd>
+
+                    @if (Model.ImageUrl != null)
+                    {
+                        <dt class="col-sm-2">Image</dt>
+                        <dd class="col-sm-10">
+                            <img id="currentImage" src="@Model.ImageUrl" class="img-fluid rounded" />
+                        </dd>
+                    }
+
+                    @if (Model.Explanation != null)
+                    {
+                        <dt class="col-sm-2">Explanation</dt>
+                        <dd class="col-sm-10">@Html.DisplayFor(model => model.Explanation)</dd>
+                    }
+
+                    <dt class="col-sm-2">Answers</dt>
+                    <dd class="col-sm-10">
+                        @Html.Partial("_AnswersList", Model.Answers)
+                    </dd>
+
+                    <dt class="col-sm-2">Question created</dt>
+                    <dd class="col-sm-10">@Html.DisplayFor(model => model.Created)</dd>
+                </dl>
+
+                @Html.ActionLink("Edit question", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
+            </div>
+            <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                    <i class="fas fa-chevron-left"></i> @Html.ActionLink("Back to list of questions", "Index", new { themeId = Model.ThemeId })<br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/Scripts/viewer/viewer.js")
+
+<script>
+    $("#subjectMenuItem").addClass("active");
+
+    var imageBlock = document.getElementById('currentImage');
+    if (imageBlock != null) {
+        var viewer = new Viewer(imageBlock, {
+            button: false,
+            navbar: false,
+            title: false,
+            toolbar: false,
+            tooltip: false,
+            fullscreen: false,
+            zoomRatio: 0.3
+        });
+    }
+</script>

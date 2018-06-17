@@ -1,0 +1,98 @@
+﻿@model StudentTestingSystem.Areas.Admin.Models.Question.QuestionCreateViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("~/Content/question.css")" rel="stylesheet" type="text/css" />
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card ">
+            <div class="card-header ">
+                <h5 class="card-title">@ViewBag.Title</h5>
+            </div>
+            <div class="card-body ">
+                @using (Html.BeginForm("Create", "Question", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return formValidation()" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.ThemeId)
+
+                    <div class="form-group">
+                        <label for="title">Question</label>
+                        <input id="title" class="form-control" name="Title" type="text" value="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="imageBlock">Image</label>
+                        <div id="imageBlock" class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="font-size:14px;">Upload</span>
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input question-file" name="Image" id="image" accept="image/x-png, image/gif, image/jpeg">
+                                <label id="fileName" class="custom-file-label" for="image">Choose file...</label>
+                            </div>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-danger btn-question" type="button" onclick="removeImage()" title="Cancel upload"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="explanation">Explanation of the question</label>
+                        <input id="explanation" class="form-control" name="Explanation" type="text" value="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="answers">Answers</label>
+                        <div id="answers" class="formBlock" style="padding-bottom:10px">
+                            <div class="correct-answer">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="icon0"><i class="fas fa-check text-success"></i></span>
+                                    </div>
+                                    <input id="answer0" class="form-control" name="answer-0-title" type="text" aria-describedby="icon0" value="" style="border-right:1px solid #ddd;border-radius:0 4px 4px 0;">
+                                    <input name="answer-0-bool" type="hidden" value="true">
+                                </div>
+                            </div>
+                            <div id="incorrectAnswers">
+                                <div id="answer_1">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="icon1"><i class="fas fa-times"></i></span>
+                                        </div>
+                                        <input id="answer1" class="form-control" name="answer-1-title" type="text" aria-describedby="icon1" value="" style="border-right:1px solid #ddd;border-radius:0 4px 4px 0;">
+                                        <input name="answer-1-bool" type="hidden" value="false">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input value="Add answer" onclick="addAnswer()" type="button" class="btn btn-outline-success">
+                        </div>
+                    </div>
+
+                    <div id="formErrors" class="form-group">
+                        <label for="formErrors">Errors</label>
+                        <ul id="errorsList" class="list-group text-danger"></ul>
+                    </div>
+
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                }
+            </div>
+            <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                    <i class="fas fa-chevron-left"></i> @Html.ActionLink("Back to list of questions", "Index", new { themeId = Model.ThemeId })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#subjectMenuItem").addClass("active");
+    var answerMaxCount = @(Model.MaxCountAnswers);
+</script>
+@Scripts.Render("~/Areas/Admin/Scripts/Question/CreateView.js")

@@ -1,0 +1,83 @@
+﻿@using StudentTestingSystem.Helpers
+@model StudentTestingSystem.Areas.Admin.Models.Result.SubjectThemeResultViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("_Breadcrumb", Model.Breadcrumb)
+
+@if (Model.Results.Count() == 0)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card ">
+                <div class="card-header ">
+                    <h5 class="card-title">@ViewBag.Title</h5>
+                    <p class="card-category">@ViewBag.SecondTitle</p>
+                </div>
+                <div class="card-body ">
+                    <div class="alert alert-warning" role="alert">This theme has no results.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card ">
+                <div class="card-header ">
+                    <h5 class="card-title">@ViewBag.Title</h5>
+                    <p class="card-category">@ViewBag.SecondTitle</p>
+                </div>
+                <div class="card-body ">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                                <th class="text-center">Student</th>
+                                <th class="text-center">Group</th>
+                                <th class="text-center">Correct answers / All questions</th>
+                                <th class="text-center">Mark</th>
+                                <th class="text-center">Date of passing</th>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Results)
+                                {
+                                    <tr>
+                                        <td>@Html.ActionLink(item.FullName, "Details", "Student", new { profileId = item.UserProfileId }, null)</td>
+                                        <td class="text-center">@Html.ActionLink(item.Group.Value.ToString(), "Index", "Student", new { groupId = item.GroupId }, null)</td>
+                                        <td class="text-center">@item.CorrectAnswersCount / @item.AllQuestionsCount</td>
+                                        @if (item.Mark < 4)
+                                        {
+                                            <td class="text-center text-danger">@Html.DisplayFor(modelItem => item.Mark)</td>
+                                        }
+                                        else if (item.Mark >= 4 && item.Mark < 7)
+                                        {
+                                            <td class="text-center text-warning">@Html.DisplayFor(modelItem => item.Mark)</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-center text-success">@Html.DisplayFor(modelItem => item.Mark)</td>
+                                        }
+                                        <td class="text-center">@Html.DisplayFor(modelItem => item.Created)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="paginationFooter" class="card-footer ">
+                    <hr>
+                    <div class="stats">
+                        @Html.PageLinks(Model.PageInfo, x => Url.Action("ThemeAllResults", new { Area = "Admin", themeId = Model.ThemeId, page = x }))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $("#subjectMenuItem").addClass("active");
+</script>

@@ -1,0 +1,27 @@
+﻿.input-group .input-group-prepend .input-group-text {
+    padding: .375rem .75rem;
+}
+
+.btn-outline-danger {
+    border: 1px solid #ef8157 !important;
+}
+
+.btn-outline-success {
+    border: 1px solid #6bd098 !important;
+}
+
+.input-group-prepend .input-group-text {
+    background-color: #e9ecef;
+    border: 1px solid #DDDDDD;
+    border-right: none;
+}
+
+.input-group-focus .input-group-prepend .input-group-text,
+.input-group-focus .input-group-append .input-group-text {
+    background-color: #F4F7F9;
+    border-color: #DDDDDD;
+}
+
+.btn {
+    margin: 10px 0px;
+}

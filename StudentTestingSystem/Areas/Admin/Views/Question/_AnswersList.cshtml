@@ -1,0 +1,15 @@
+﻿@model List<StudentTestingSystem.Services.TransportModels.Admin.Answer.Response.AnswerDto>
+
+<ul class="list-group">
+    @foreach (var item in Model)
+    {
+        if (item.IsCorrectAnswer)
+        {
+            <li class="list-group-item list-group-item-success"><i class="fas fa-check" style="padding-right:4px;"></i> @item.Title</li>
+        }
+        else
+        {
+            <li class="list-group-item">@item.Title</li>
+        }
+    }
+</ul>

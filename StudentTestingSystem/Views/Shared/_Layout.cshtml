@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>@ViewBag.Title - Student Testing System</title>
+
+    <link rel="apple-touch-icon" sizes="120x120" href="~/Content/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/favicon/favicon-16x16.png">
+    <link rel="manifest" href="~/Content/favicon/site.webmanifest">
+    <link rel="mask-icon" href="~/Content/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="apple-mobile-web-app-title" content="Testing System">
+    <meta name="application-name" content="Testing System">
+    <meta name="msapplication-TileColor" content="#b91d47">
+    <meta name="theme-color" content="#ffffff">
+
+    @Styles.Render("~/Content/css")
+    @RenderSection("Styles", false)
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="">
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <div class="wrapper ">
+        @Html.Partial("_Sidebar")
+        <div class="main-panel">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper">
+                        <div class="navbar-toggle">
+                            <button type="button" class="navbar-toggler">
+                                <span class="navbar-toggler-bar bar1"></span>
+                                <span class="navbar-toggler-bar bar2"></span>
+                                <span class="navbar-toggler-bar bar3"></span>
+                            </button>
+                        </div>
+                        @if (this.User.IsInRole("Admin") || this.User.IsInRole("SuperAdmin"))
+                        {
+                            <span id="navbarTitle" class="navbar-brand">Student Testing System <sup class="navbar-brand-sup text-danger">Administrator</sup></span>
+                        }
+                        else
+                        {
+                            <span id="navbarTitle" class="navbar-brand">Student Testing System</span>
+                        }
+                    </div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                        <ul class="navbar-nav">
+                            @Html.Partial("_LoginPartial")
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+
+            <div class="content">
+                @RenderBody()
+            </div>
+            <footer class="footer footer-black  footer-white ">
+                <div class="container-fluid">
+                    <div class="row">
+                        <nav class="footer-nav">
+                            <ul>
+                                <li>
+                                    <a href="http://www.bntu.by/" target="_blank">BNTU</a>
+                                </li>
+                                <li>
+                                    <a href="http://library.bntu.by/" target="_blank">Scientific library of the BNTU</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="credits ml-auto">
+                            <span class="copyright">
+                                &copy; @DateTime.UtcNow.Year, made with <i class="fa fa-heart heart text-danger"></i> by <a href="#" class="footer-link">Dmitry Morozov</a> & <a href="https://vk.com/jagailo" class="footer-link" target="_blank">Alexey Yagelo</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/paper")
+</body>
+</html>

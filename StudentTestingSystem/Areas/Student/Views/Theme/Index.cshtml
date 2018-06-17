@@ -1,0 +1,76 @@
+﻿@model StudentTestingSystem.Areas.Admin.Models.Theme.ThemeIndexViewModel
+@using StudentTestingSystem.Helpers
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("_Breadcrumb", Model.Breadcrumb)
+
+@if (!Model.Themes.Any())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card ">
+                <div class="card-header ">
+                    <h5 class="card-title">@ViewBag.Title</h5>
+                </div>
+                <div class="card-body ">
+                    <div class="alert alert-warning" role="alert">There are no themes on this subject.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card ">
+                <div class="card-header ">
+                    <h5 class="card-title">@ViewBag.Title</h5>
+                </div>
+                <div class="card-body ">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                                <th class="text-center">Theme</th>
+                                <th class="text-center">Time to pass</th>
+                                <th class="text-center">Questions</th>
+                                @if (Session["Token"] == null)
+                                {
+                                    <th class="text-center">Actions</th>
+                                }
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Themes)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                        <td class="text-center">@Html.DisplayFor(modelItem => item.TimeLine) minutes</td>
+                                        <td class="text-center">@Html.DisplayFor(modelItem => item.QuestionsCount)</td>
+                                        @if (Session["Token"] == null)
+                                        {
+                                            <td class="text-center">
+                                                @Html.ActionLink("Solve", "CreateSession", "Result", new { subjectId = item.SubjectId, themeId = item.Id, onclick = "startTick();" }, new { @class = "btn btn-success" })
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="paginationFooter" class="card-footer ">
+                    <hr>
+                    <div class="stats">
+                        @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { subjectId = Model.SubjectId, page = x }))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $("#subjectMenuItem").addClass("active");
+</script>
