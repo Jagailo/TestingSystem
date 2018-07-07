@@ -83,7 +83,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         public async Task<ActionResult> Edit(Guid id)
         {
             var subject = await _subjectAdminService.GetSubjectByIdAsync(id);
-            EditSubjectRequest editSubjectRequest = SubjectMapper.ToEditSubjectRequest(subject);
+            EditSubjectRequest editSubjectRequest = subject.ToEditSubjectRequest();
 
             ViewBag.Title = $"Edit subject \"{subject.Title}\"";
             return View(editSubjectRequest);
@@ -117,7 +117,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         {
             var subject = await _subjectAdminService.GetSubjectByIdAsync(id);
 
-            ViewBag.Title = $"Details of the subject \"{subject.Title}\""; ;
+            ViewBag.Title = $"Details of the subject \"{subject.Title}\"";
             return View(subject);
         }
     }

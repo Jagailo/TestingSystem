@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using StudentTestingSystem.Domain.Infrastructure;
 using StudentTestingSystem.Domain.Models.Group;
@@ -26,6 +25,7 @@ namespace StudentTestingSystem.Services.Services.Admin
 
         public async Task<PageInfo<GroupListDto>> GetAllGroupsAsync(int page = 1, int pageSize = 10)
         {
+            if (page <= 0) throw new ArgumentOutOfRangeException(nameof(page));
             var groups = UnitOfWork.GroupRepository.GetAll()
                 .OrderBy(x => x.Number);
 

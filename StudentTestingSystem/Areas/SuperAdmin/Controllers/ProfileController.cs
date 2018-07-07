@@ -7,7 +7,6 @@ using StudentTestingSystem.Models;
 using StudentTestingSystem.Services.Abstract.SuperAdmin;
 using StudentTestingSystem.Services.TransportModels.SuperAdmin.Profile.Request;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -117,11 +116,11 @@ namespace StudentTestingSystem.Areas.SuperAdmin.Controllers
                 await UserManager.RemoveLoginAsync(login.UserId, new UserLoginInfo(login.LoginProvider, login.ProviderKey));
             }
 
-            if (rolesForUser.Count() > 0)
+            if (rolesForUser.Any())
             {
                 foreach (var item in rolesForUser.ToList())
                 {
-                    var result = await UserManager.RemoveFromRoleAsync(user.Id, item);
+                    await UserManager.RemoveFromRoleAsync(user.Id, item);
                 }
             }
 

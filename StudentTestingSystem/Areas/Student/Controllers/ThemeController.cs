@@ -23,8 +23,7 @@ namespace StudentTestingSystem.Areas.Student.Controllers
         public ThemeController(
             IThemeAdminService themeAdminService, 
             ISubjectAdminService subjectAdminService, 
-            IQuestionAdminService questionAdminService, 
-            IProfileService profileService)
+            IQuestionAdminService questionAdminService)
         {
             _themeAdminService = themeAdminService;
             _subjectAdminService = subjectAdminService;

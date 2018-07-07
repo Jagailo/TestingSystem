@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using StudentTestingSystem.Domain.Models.Answer;
 using StudentTestingSystem.Services.TransportModels.Admin.Answer.Request;
 using StudentTestingSystem.Services.TransportModels.Admin.Answer.Response;
@@ -63,12 +59,12 @@ namespace StudentTestingSystem.Services.Extensions
 
         public static List<AnswerDto> ToListAnswerDto(List<Answer> answers)
         {
-            List<AnswerDto> answerDTOList = new List<AnswerDto>();
+            List<AnswerDto> answerDtoList = new List<AnswerDto>();
             foreach(var answer in answers)
             {
-                answerDTOList.Add(ToAnswerDto(answer));
+                answerDtoList.Add(ToAnswerDto(answer));
             }
-            return answerDTOList;
+            return answerDtoList;
         }
 
         public static List<UpdateAnswerRequest> ToListUpdateAnswerRequest(List<Answer> answers)

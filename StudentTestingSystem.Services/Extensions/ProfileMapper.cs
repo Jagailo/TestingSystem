@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StudentTestingSystem.Domain.Models.Profile;
+﻿using StudentTestingSystem.Domain.Models.Profile;
 using StudentTestingSystem.Services.TransportModels.Student.Profile.Response;
 using StudentTestingSystem.Services.TransportModels.SuperAdmin.Profile.Response;
 

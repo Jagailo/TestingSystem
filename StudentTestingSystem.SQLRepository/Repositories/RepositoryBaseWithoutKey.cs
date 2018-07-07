@@ -11,56 +11,56 @@ namespace StudentTestingSystem.SQLRepository.Repositories
     public abstract class RepositoryBaseWithoutKey<TEntity> : IRepositoryWithoutKey<TEntity>
         where TEntity : class, new()
     {
-        protected readonly DbSet<TEntity> dbset;
+        protected readonly DbSet<TEntity> Dbset;
         // TODO: пофиксить варнинг Ensure.That<T>()
 
         protected RepositoryBaseWithoutKey(ApplicationDbContext dataContext)
         {
             Ensure.That(dataContext, "dataContext").IsNotNull();
             DataContext = dataContext;
-            this.dbset = this.DataContext.Set<TEntity>();
+            this.Dbset = this.DataContext.Set<TEntity>();
         }
 
-        protected ApplicationDbContext DataContext { get; private set; }
+        protected ApplicationDbContext DataContext { get; }
 
         public virtual TEntity Add(TEntity entity)
         {
             Ensure.That(entity, "entity").IsNotNull();
-            this.dbset.Add(entity);
+            this.Dbset.Add(entity);
             return entity;
         }
 
         public virtual void Delete(TEntity entity)
         {
             Ensure.That(entity, "entity").IsNotNull();
-            this.dbset.Remove(entity);
+            this.Dbset.Remove(entity);
         }
 
         public virtual void Delete(Expression<Func<TEntity, bool>> where)
         {
             Ensure.That(where, "where").IsNotNull();
-            IEnumerable<TEntity> objects = this.dbset.Where<TEntity>(where).AsEnumerable();
+            IEnumerable<TEntity> objects = this.Dbset.Where<TEntity>(where).AsEnumerable();
             foreach (TEntity obj in objects)
             {
-                this.dbset.Remove(obj);
+                this.Dbset.Remove(obj);
             }
         }
 
         public virtual IQueryable<TEntity> GetAll()
         {
-            return this.dbset;
+            return this.Dbset;
         }
 
         public virtual IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> where)
         {
             Ensure.That(where, "where").IsNotNull();
-            return this.dbset.Where(where);
+            return this.Dbset.Where(where);
         }
 
         public virtual void Update(TEntity entity)
         {
             Ensure.That(entity, "entity").IsNotNull();
-            this.dbset.Attach(entity);
+            this.Dbset.Attach(entity);
             DataContext.Entry(entity).State = EntityState.Modified;
         }
     }

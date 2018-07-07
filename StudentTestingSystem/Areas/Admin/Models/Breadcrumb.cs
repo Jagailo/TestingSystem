@@ -2,8 +2,10 @@
 {
     public class Breadcrumb
     {
-        private string _title, _action, _controller;
-        private object _routeValues;
+        private readonly string _title;
+        private readonly string _action;
+        private readonly string _controller;
+        private readonly object _routeValues;
 
         public Breadcrumb(string title)
         {

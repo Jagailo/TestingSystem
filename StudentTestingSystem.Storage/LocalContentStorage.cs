@@ -6,7 +6,7 @@ namespace StudentTestingSystem.Storage
 {
     public class LocalContentStorage : IContentStorage
     {
-        private string _contentFolder;
+        private readonly string _contentFolder;
 
         public LocalContentStorage(string baseContentFolder = "Uploads")
         {

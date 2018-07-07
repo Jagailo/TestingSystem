@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.WebPages.Html;
-using StudentTestingSystem.Domain.Models.Group;
+﻿using StudentTestingSystem.Domain.Models.Group;
 using StudentTestingSystem.Services.TransportModels.Admin.Group.Response;
 
 namespace StudentTestingSystem.Services.Extensions

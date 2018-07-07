@@ -120,7 +120,6 @@ namespace StudentTestingSystem.Areas.Student.Controllers
         public async Task<JsonResult> AutoResult(CreateResultRequest request)
         {
             var sessionModel = (SessionModel)Session["Answers"];
-            var sessionTokenExpire = (DateTime) Session["TokenExpiration"];
             request.AnswerIds = sessionModel.Answers.Select(x => x.SelectedAnswerId).ToList();
 
             TempData["testTimeLineExpired"] = "The time for passing the test is over.";
