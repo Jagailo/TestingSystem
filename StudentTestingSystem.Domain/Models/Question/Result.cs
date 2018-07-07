@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using StudentTestingSystem.Domain.Infrastructure;
-using StudentTestingSystem.Domain.Models.Account;
 using StudentTestingSystem.Domain.Models.Profile;
 
 namespace StudentTestingSystem.Domain.Models.Question

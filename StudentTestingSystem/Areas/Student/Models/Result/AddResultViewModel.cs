@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using StudentTestingSystem.Services.TransportModels.Admin.Question.Response;
 
 namespace StudentTestingSystem.Areas.Student.Models.Result

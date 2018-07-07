@@ -65,7 +65,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
                 new Breadcrumb("Students of the group")
             };
 
-            var viewModel = new Models.Student.IndexViewModel
+            var viewModel = new IndexViewModel
             {
                 GroupId = groupId,
                 PageInfo = students,
@@ -115,7 +115,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
                 });
                 return RedirectToAction("Index", new { groupId = model.GroupId });
             }
-            ViewBag.Title = $"Edit student";
+            ViewBag.Title = "Edit student";
             return View(model);
         }
 
@@ -144,7 +144,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         public async Task<ActionResult> ResetPassword(Guid profileId)
         {
             var profile = await _studentAdminService.GetStudentByIdAsync(profileId);            
-            var model = new Models.Student.ResetPasswordViewModel
+            var model = new ResetPasswordViewModel
             {
                 Id = profileId
             };
@@ -156,7 +156,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResetPassword(Models.Student.ResetPasswordViewModel model)
+        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             var profile = await _studentAdminService.GetStudentByIdAsync(model.Id);
             ViewBag.Title = $"Reset password for {profile.FirstName} {profile.LastName}";

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using StudentTestingSystem.Domain.Infrastructure;
 using StudentTestingSystem.Domain.Models.Profile;
-using StudentTestingSystem.Domain.Models.Subject;
 
 namespace StudentTestingSystem.Domain.Models.Group
 {

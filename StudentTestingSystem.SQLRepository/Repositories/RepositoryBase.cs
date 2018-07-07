@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StudentTestingSystem.Domain.Infrastructure;
+﻿using StudentTestingSystem.Domain.Infrastructure;
 
 namespace StudentTestingSystem.SQLRepository.Repositories
 {
@@ -17,7 +12,7 @@ namespace StudentTestingSystem.SQLRepository.Repositories
 
         public virtual TEntity GetById(TKey id)
         {
-            return this.dbset.Find(id);
+            return this.Dbset.Find(id);
         }
     }
 }
