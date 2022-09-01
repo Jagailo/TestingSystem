@@ -52,7 +52,7 @@ namespace StudentTestingSystem.Controllers
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
-            return View();
+            return View(new ChangePasswordViewModel());
         }
 
         // POST: /Manage/ChangePassword

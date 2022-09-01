@@ -167,7 +167,7 @@ namespace StudentTestingSystem.Areas.SuperAdmin.Controllers
             }
             AddErrors(result);
             ViewBag.Title = $"Reset password for {profile.FirstName} {profile.LastName}";
-            return View();
+            return View(model);
         }
 
         // GET: /SuperAdmin/Profile/Register
@@ -176,7 +176,7 @@ namespace StudentTestingSystem.Areas.SuperAdmin.Controllers
         public ActionResult Register()
         {
             ViewBag.Title = "Register a new teacher";
-            return View();
+            return View(new AdminRegisterViewModel());
         }
 
         // POST: /SuperAdmin/Profile/Register

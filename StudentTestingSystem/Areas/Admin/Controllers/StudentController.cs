@@ -177,7 +177,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
                 return RedirectToAction("Details", "Student", new { profileId = model.Id });
             }
             AddErrors(result);
-            return View();
+            return View(model);
         }
 
         private void AddErrors(IdentityResult result)

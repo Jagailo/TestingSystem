@@ -115,7 +115,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         public ActionResult ChangePassword()
         {
             ViewBag.Title = "Change password";
-            return View();
+            return View(new ChangePasswordViewModel());
         }
 
         // POST: /Admin/Teacher/ChangePassword

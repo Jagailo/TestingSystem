@@ -45,7 +45,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult AddGroup()
         {
-            return View();
+            return View(new AddGroupViewModel());
         }
 
         // POST: Admin/Group/AddGroup

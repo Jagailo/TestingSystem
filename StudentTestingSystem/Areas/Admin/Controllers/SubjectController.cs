@@ -59,7 +59,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         public ActionResult Create()
         {
             ViewBag.Title = "Add a new subject";
-            return View();
+            return View(new CreateSubjectRequest());
         }
 
         // POST: Admin/Subject/Create
