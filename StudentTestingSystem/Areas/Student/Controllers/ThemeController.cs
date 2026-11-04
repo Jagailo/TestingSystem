@@ -64,20 +64,20 @@ namespace StudentTestingSystem.Areas.Student.Controllers
             if (theme.QuestionsCount == 0)
             {
                 Session["Token"] = null;
-                Session["TokenExpire"] = null;
+                Session["TokenExpiration"] = null;
                 Session["Answers"] = null;
                 return RedirectToAction("Index", "Theme", new { subjectId = theme.SubjectId });
             }
 
             var sessionToken = Session["Token"];
-            var sessionTokenExpire = (DateTime) Session["TokenExpiration"];
-            if (sessionToken == null)
+            var sessionTokenExpiration = Session["TokenExpiration"] as DateTime?;
+            if (sessionToken == null || sessionTokenExpiration == null || Session["Answers"] == null)
             {
                 TempData["invalidToken"] = "You have an invalid token. Please try to run test again.";
                 return RedirectToAction("AutoResult", "Result", new { themeId = theme.Id });
             }
 
-            if (sessionTokenExpire < DateTime.UtcNow)
+            if (sessionTokenExpiration < DateTime.UtcNow)
             {
                 return RedirectToAction("AutoResult", "Result", new { themeId = theme.Id });
             }
@@ -106,6 +106,11 @@ namespace StudentTestingSystem.Areas.Student.Controllers
                 })
                 .FirstOrDefault();
 
+            if (question == null)
+            {
+                return RedirectToAction("Index", "Theme", new { subjectId = theme.SubjectId });
+            }
+
             question.Options.Shuffle();
 
             return View(question);
@@ -113,19 +118,20 @@ namespace StudentTestingSystem.Areas.Student.Controllers
 
         [Authorize(Roles = "Admin, User")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Solve(AnswerViewModel model)
         {
             var theme = await _themeAdminService.GetThemeByIdAsync(model.ThemeId);
 
             var sessionToken = Session["Token"];
-            var sessionTokenExpire = (DateTime)Session["TokenExpiration"];
-            if (sessionToken == null)
+            var sessionTokenExpiration = Session["TokenExpiration"] as DateTime?;
+            if (sessionToken == null || sessionTokenExpiration == null || Session["Answers"] == null)
             {
                 TempData["invalidToken"] = "You have an invalid token. Please try to run test again.";
                 return RedirectToAction("AutoResult", "Result", new { themeId = theme.Id });
             }
 
-            if (sessionTokenExpire < DateTime.UtcNow)
+            if (sessionTokenExpiration < DateTime.UtcNow)
             {
                 return RedirectToAction("AutoResult", "Result", new { themeId = theme.Id });
             }

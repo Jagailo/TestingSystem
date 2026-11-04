@@ -6,6 +6,8 @@
 
 @Html.Partial("_Breadcrumb", Model.Breadcrumb)
 
+@Html.AntiForgeryToken()
+
 @if (!Model.Groups.Any())
 {
     <div class="row">
@@ -83,7 +85,7 @@ else
 
     <script>
         $('#deleteModal').on('click', '.btn-ok', function (e) {
-            $.post('/SuperAdmin/Group/Delete?groupId=' + $(this).data('itemId')).then(function () {
+            $.post('/SuperAdmin/Group/Delete?groupId=' + $(this).data('itemId'), { __RequestVerificationToken: $('input[name=__RequestVerificationToken]').val() }).then(function () {
                 window.location.href = '@Url.Action("Index", "Group")';
             });
         });

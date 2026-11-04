@@ -90,6 +90,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         // POST: /Admin/Teacher/Edit
         [HttpPost]
         [Authorize(Roles = "Admin, SuperAdmin")]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(TeacherEditViewModel model)
         {
             if (ModelState.IsValid)
@@ -120,7 +121,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
 
         // POST: /Admin/Teacher/ChangePassword
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin, SuperAdmin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {

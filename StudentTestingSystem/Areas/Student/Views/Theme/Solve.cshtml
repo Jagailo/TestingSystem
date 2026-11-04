@@ -73,6 +73,7 @@
             <div class="card-body " onload="startTick()">
                 @using (Html.BeginForm("Solve", "Theme", FormMethod.Post))
                 {
+                    @Html.AntiForgeryToken()
                     <input type="hidden" name="themeId" id="themeId" value="@Model.ThemeId" />
                     <input type="hidden" name="questionId" value="@Model.QuestionId" />
                     <input type="hidden" name="questionNumber" value="@Model.QuestionNumber" />
@@ -157,6 +158,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-5">
                             @using (Html.BeginForm("Result", "Result", FormMethod.Post))
                             {
+                                @Html.AntiForgeryToken()
                                 <input type="hidden" name="themeId" value="@Model.ThemeId" />
                                 <button class="btn btn-success btn-block" id="submitTest">Finish the test</button>
                             }

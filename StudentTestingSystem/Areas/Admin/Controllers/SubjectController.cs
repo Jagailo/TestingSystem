@@ -107,12 +107,14 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         // POST: Admin/Subject/Delete
         [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task Delete(Guid id)
         {
             await _subjectAdminService.DeleteSubjectAsync(id);
         }
 
         // GET: Admin/Subject/Details
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public async Task<ActionResult> Details(Guid id)
         {
             var subject = await _subjectAdminService.GetSubjectByIdAsync(id);

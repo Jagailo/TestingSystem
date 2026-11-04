@@ -105,6 +105,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         // POST: Admin/Theme/Delete
         [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task Delete(Guid id)
         {
             await _themeAdminService.DeleteThemeAsync(id);

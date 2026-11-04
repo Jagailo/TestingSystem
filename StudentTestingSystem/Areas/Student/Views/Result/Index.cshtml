@@ -7,6 +7,22 @@
 
 @Html.Partial("_Breadcrumb", Model.Breadcrumb)
 
+@if (TempData["invalidToken"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["invalidToken"]
+    </div>
+}
+@if (TempData["testTimeLineExpired"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        @TempData["testTimeLineExpired"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
 @if (Model.Results.Count() == 0)
 {
     <div class="row">

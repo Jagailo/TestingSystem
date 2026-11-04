@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 using StudentTestingSystem.Areas.Admin.Controllers;
 using StudentTestingSystem.Domain.Models.Account;
 using StudentTestingSystem.Models;
@@ -98,6 +97,7 @@ namespace StudentTestingSystem.Areas.SuperAdmin.Controllers
         // POST: /SuperAdmin/Profile/Delete
         [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task Delete(Guid profileId)
         {
             string userId = await _profileSuperAdminService.GetUserIdByProfileIdAsync(profileId);
@@ -144,7 +144,7 @@ namespace StudentTestingSystem.Areas.SuperAdmin.Controllers
 
         // POST: /SuperAdmin/Profile/ResetPassword
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "SuperAdmin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(Models.Profile.ResetPasswordViewModel model)
         {
@@ -217,17 +217,6 @@ namespace StudentTestingSystem.Areas.SuperAdmin.Controllers
         }
 
         #region Helpers
-        // Used for XSRF protection when adding external logins
-        private const string XsrfKey = "XsrfId";
-
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
-
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -255,35 +244,6 @@ namespace StudentTestingSystem.Areas.SuperAdmin.Controllers
                 return Redirect(returnUrl);
             }
             return RedirectToAction("Index", "Home");
-        }
-
-        internal class ChallengeResult : HttpUnauthorizedResult
-        {
-            public ChallengeResult(string provider, string redirectUri)
-                : this(provider, redirectUri, null)
-            {
-            }
-
-            public ChallengeResult(string provider, string redirectUri, string userId)
-            {
-                LoginProvider = provider;
-                RedirectUri = redirectUri;
-                UserId = userId;
-            }
-
-            public string LoginProvider { get; set; }
-            public string RedirectUri { get; set; }
-            public string UserId { get; set; }
-
-            public override void ExecuteResult(ControllerContext context)
-            {
-                var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
-                if (UserId != null)
-                {
-                    properties.Dictionary[XsrfKey] = UserId;
-                }
-                context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
-            }
         }
         #endregion
 

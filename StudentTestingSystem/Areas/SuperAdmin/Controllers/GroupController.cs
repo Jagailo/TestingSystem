@@ -49,6 +49,7 @@ namespace StudentTestingSystem.Areas.SuperAdmin.Controllers
         // POST: SuperAdmin/Group/Delete
         [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task Delete(Guid groupId)
         {
             await _groupSuperAdminService.DeleteGroupAsync(groupId);
@@ -83,6 +84,7 @@ namespace StudentTestingSystem.Areas.SuperAdmin.Controllers
         // POST: SuperAdmin/Group/DeleteResultsAsync
         [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task DeleteResultsAsync(Guid groupId)
         {
             await _groupSuperAdminService.DeleteAllGroupResultsAsync(groupId);

@@ -6,6 +6,8 @@
 
 @Html.Partial("_Breadcrumb", Model.Breadcrumb)
 
+@Html.AntiForgeryToken()
+
 @if (!Model.Themes.Any())
 {
     <div class="row">
@@ -101,7 +103,7 @@ else
 
     <script>
     $('#deleteModal').on('click', '.btn-ok', function (e) {
-        $.post('/Admin/Theme/Delete/' + $(this).data('itemId')).then(function () {
+        $.post('/Admin/Theme/Delete/' + $(this).data('itemId'), { __RequestVerificationToken: $('input[name=__RequestVerificationToken]').val() }).then(function () {
             window.location.href = '@Url.Action("Index", "Theme", new { subjectId = Model.SubjectId })';
         });
     });

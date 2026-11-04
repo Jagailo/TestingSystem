@@ -6,6 +6,8 @@
 
 @Html.Partial("_Breadcrumb", Model.Breadcrumb)
 
+@Html.AntiForgeryToken()
+
 @if (Model.Questions.Count() == 0)
 {
     <div class="row">
@@ -91,7 +93,7 @@ else
 
     <script>
     $('#deleteModal').on('click', '.btn-ok', function (e) {
-        $.post('/Admin/Question/Delete/' + $(this).data('itemId')).then(function () {
+        $.post('/Admin/Question/Delete/' + $(this).data('itemId'), { __RequestVerificationToken: $('input[name=__RequestVerificationToken]').val() }).then(function () {
             window.location.href = '@Url.Action("Index", "Question", new { themeId = Model.ThemeId })';
         });
     });

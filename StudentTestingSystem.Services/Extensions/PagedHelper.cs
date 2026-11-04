@@ -10,12 +10,22 @@ namespace StudentTestingSystem.Services.Extensions
     {
         public static async Task<PageInfo<TReturn>> CreatePagedResultsAsync<T, TReturn>(IQueryable<T> query, int page, int pageSize, Func<T, TReturn> mapper)
         {
+            if (page <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(page));
+            }
+
+            if (pageSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(pageSize));
+            }
+
             var projection = query.Skip((page - 1) * pageSize)
                 .Take(pageSize);
 
             var totalNumberOfRecords = await query.CountAsync();
 
-            var results = (await projection.Distinct().ToListAsync()).Select(mapper);
+            var results = (await projection.ToListAsync()).Select(mapper);
 
             var mod = totalNumberOfRecords % pageSize;
             var totalPageCount = (totalNumberOfRecords / pageSize) + (mod == 0 ? 0 : 1);

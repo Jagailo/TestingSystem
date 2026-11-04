@@ -2,7 +2,7 @@
 {
     public static class AttachmentsUtil
     {
-        public static string GetExtentionFromMimeType(string mimeType)
+        public static string GetExtensionFromMimeType(string mimeType)
         {
             switch (mimeType)
             {

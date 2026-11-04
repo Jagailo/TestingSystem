@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 
 namespace StudentTestingSystem.Areas.Admin.Controllers
 {
+    [Authorize]
     public class BaseController : Controller
     {
         protected string GetCurrentUserName()

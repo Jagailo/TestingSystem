@@ -52,8 +52,8 @@ namespace StudentTestingSystem
             {
                 RequiredLength = 9,
                 RequireNonLetterOrDigit = false,
-                RequireDigit = false,
-                RequireLowercase = false,
+                RequireDigit = true,
+                RequireLowercase = true,
                 RequireUppercase = false,
             };
 

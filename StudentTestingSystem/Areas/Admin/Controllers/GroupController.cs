@@ -51,6 +51,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         // POST: Admin/Group/AddGroup
         [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddGroup(AddGroupViewModel model)
         {
             if (ModelState.IsValid)
@@ -84,6 +85,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         // POST: Admin/Group/UpdateGroup
         [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateGroup(UpdateGroupViewModel model)
         {
             if (ModelState.IsValid)
@@ -103,6 +105,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         // POST: Admin/Group/Delete
         [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(Guid groupId)
         {
             await _groupAdminService.DeleteGroupAsync(groupId);

@@ -36,15 +36,14 @@ function startTick() {
             //    $('.choiceOptions link').attr('disabled', 'disabled');
         } else {
             clearInterval(tick);
-            var createResultRequest = {
-                ThemeId: $('#themeId').val()
-            };
 
             $.ajax({
                 type: 'POST',
-                contentType: 'application/json; charset=utf-8',
                 url: ajaxURL,
-                data: JSON.stringify(createResultRequest),
+                data: {
+                    ThemeId: $('#themeId').val(),
+                    __RequestVerificationToken: $('input[name=__RequestVerificationToken]').val()
+                },
                 success: function (data) {
                     window.location.href = data;
                 },

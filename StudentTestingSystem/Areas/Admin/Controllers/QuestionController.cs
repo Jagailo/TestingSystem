@@ -20,6 +20,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         private readonly IThemeAdminService _themeAdminService;
         private readonly IQuestionAdminService _questionAdminService;
         private readonly int _maxCountAnswers = 4; // For creating and editing (min 2)
+        private const int _maxImageSize = 3 * 1024 * 1024; // 3 MB
 
         public QuestionController(
             IQuestionAdminService questionAdminService,
@@ -77,13 +78,25 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(QuestionCreateViewModel model, FormCollection formCollection)
         {
-            List<AddAnswerRequest> answers = new List<AddAnswerRequest>();
-            for (int i = 4; i < formCollection.Count; i += 2)
+            if (!ValidateAttachment(model.Image, "Image"))
             {
+                model.MaxCountAnswers = _maxCountAnswers;
+                return View(model);
+            }
+
+            List<AddAnswerRequest> answers = new List<AddAnswerRequest>();
+            for (int i = 0; i < _maxCountAnswers; i++)
+            {
+                string title = formCollection["answer-" + i + "-title"];
+                if (string.IsNullOrWhiteSpace(title))
+                {
+                    continue;
+                }
+
                 AddAnswerRequest addAnswerRequest = new AddAnswerRequest()
                 {
-                    Title = formCollection[i],
-                    IsCorrectAnswer = Convert.ToBoolean(formCollection[i + 1])
+                    Title = title,
+                    IsCorrectAnswer = Convert.ToBoolean(formCollection["answer-" + i + "-bool"])
                 };
                 answers.Add(addAnswerRequest);
             }
@@ -100,7 +113,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
             
             if (model.Image != null && model.Image.ContentLength > 0)
             {
-                var extension = AttachmentsUtil.GetExtentionFromMimeType(model.Image.ContentType);
+                var extension = AttachmentsUtil.GetExtensionFromMimeType(model.Image.ContentType);
                 var content = GetAttachmentContent(model.Image);
                 await _questionAdminService.UploadAttachmentAsync(new UploadQuestionAttachmentRequest(question.Id, content, extension));
             }
@@ -135,8 +148,14 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(QuestionEditViewModel model, FormCollection formCollection)
+        public async Task<ActionResult> Edit(QuestionEditViewModel model)
         {
+            if (!ValidateAttachment(model.File, "File"))
+            {
+                model.MaxCountAnswers = _maxCountAnswers;
+                return View(model);
+            }
+
             if (model.File != null && model.File.ContentLength > 0) // Replace image
             {
                 if (model.ImageUrl != null)
@@ -144,7 +163,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
                     await _questionAdminService.DeleteAttachmentAsync(model.Id);
                     model.ImageUrl = null;
                 }
-                var extension = AttachmentsUtil.GetExtentionFromMimeType(model.File.ContentType);
+                var extension = AttachmentsUtil.GetExtensionFromMimeType(model.File.ContentType);
                 var content = GetAttachmentContent(model.File);
                 model.ImageUrl = await _questionAdminService.UploadAttachmentAsync(new UploadQuestionAttachmentRequest(model.Id, content, extension));
             }
@@ -154,25 +173,13 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
                 model.ImageUrl = null;
             }
 
-            List<UpdateAnswerRequest> answers = new List<UpdateAnswerRequest>();
-            for (int i = 6; i < formCollection.Count; i += 3)
-            {
-                UpdateAnswerRequest updateAnswerRequest = new UpdateAnswerRequest()
-                {
-                    Id = Guid.Parse(formCollection[i]),
-                    IsCorrectAnswer = Convert.ToBoolean(formCollection[i + 1]),
-                    Title = formCollection[i + 2]
-                };
-                answers.Add(updateAnswerRequest);
-            }
-
             EditQuestionRequest editQuestionRequest = new EditQuestionRequest()
             {
                 Id = model.Id,
                 Title = model.Title,
                 ImageUrl = model.ImageUrl,
                 Explanation = model.Explanation,
-                Answers = answers
+                Answers = model.Answers ?? new List<UpdateAnswerRequest>()
             };
 
             await _questionAdminService.EditQuestionAsync(editQuestionRequest);
@@ -183,6 +190,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         // POST: Admin/Question/Delete
         [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task Delete(Guid id)
         {
             var question = await _questionAdminService.GetQuestionByIdAsync(id);
@@ -202,6 +210,28 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
 
             ViewBag.Title = $"Details of the question \"{question.Title}\"";
             return View(question);
+        }
+
+        private bool ValidateAttachment(HttpPostedFileBase attachment, string field)
+        {
+            if (attachment == null || attachment.ContentLength == 0)
+            {
+                return true;
+            }
+
+            if (AttachmentsUtil.GetExtensionFromMimeType(attachment.ContentType) == null)
+            {
+                ModelState.AddModelError(field, "Only JPEG, PNG and MP4 files are allowed.");
+                return false;
+            }
+
+            if (attachment.ContentLength > _maxImageSize)
+            {
+                ModelState.AddModelError(field, "The size of the uploaded file shouldn't exceed 3 MB.");
+                return false;
+            }
+
+            return true;
         }
 
         private byte[] GetAttachmentContent(HttpPostedFileBase attachment)

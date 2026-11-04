@@ -101,6 +101,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
         // POST: Admin/Student/UpdateStudentProfile
         [HttpPost]
         [Authorize(Roles = "SuperAdmin, Admin")]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateStudentProfile(UpdateStudentProfileViewModel model)
         {
             if (ModelState.IsValid)
@@ -154,7 +155,7 @@ namespace StudentTestingSystem.Areas.Admin.Controllers
 
         // POST: /Account/ResetPassword
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {

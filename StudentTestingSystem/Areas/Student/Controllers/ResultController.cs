@@ -78,14 +78,21 @@ namespace StudentTestingSystem.Areas.Student.Controllers
 
         [Authorize(Roles = "Admin, User")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Result(CreateResultRequest request)
         {
-            var sessionModel = (SessionModel) Session["Answers"];
+            var sessionModel = Session["Answers"] as SessionModel;
+            if (sessionModel == null)
+            {
+                TempData["testTimeLineExpired"] = "The time for passing the test is over.";
+                return RedirectToAction("Index");
+            }
+
             request.AnswerIds = sessionModel.Answers.Select(x => x.SelectedAnswerId).ToList();
 
             // Clear session
             Session["Token"] = null;
-            Session["TokenExpire"] = null;
+            Session["TokenExpiration"] = null;
             Session["Answers"] = null;
 
             var userId = GetCurrentUserId();
@@ -117,16 +124,31 @@ namespace StudentTestingSystem.Areas.Student.Controllers
         }
 
         [Authorize(Roles = "Admin, User")]
+        [HttpGet]
+        public ActionResult AutoResult()
+        {
+            TempData["testTimeLineExpired"] = "The time for passing the test is over.";
+            return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = "Admin, User")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<JsonResult> AutoResult(CreateResultRequest request)
         {
-            var sessionModel = (SessionModel)Session["Answers"];
+            var sessionModel = Session["Answers"] as SessionModel;
+            if (sessionModel == null)
+            {
+                return Json(Url.Action("Index", "Result"));
+            }
+
             request.AnswerIds = sessionModel.Answers.Select(x => x.SelectedAnswerId).ToList();
 
             TempData["testTimeLineExpired"] = "The time for passing the test is over.";
 
             // Clear session
             Session["Token"] = null;
-            Session["TokenExpire"] = null;
+            Session["TokenExpiration"] = null;
             Session["Answers"] = null;
 
             var userId = GetCurrentUserId();
@@ -172,7 +194,7 @@ namespace StudentTestingSystem.Areas.Student.Controllers
         [HttpGet]
         public ActionResult Result(ResultIndexViewModel model)
         {
-            var list = TempData["directions"] as List<string>;
+            var list = TempData["directions"] as List<string> ?? new List<string>();
             model.Directions = list.Where(x => !string.IsNullOrEmpty(x)).ToList();
             return View(model);
         }

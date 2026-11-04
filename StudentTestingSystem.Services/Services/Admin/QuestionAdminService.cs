@@ -61,15 +61,13 @@ namespace StudentTestingSystem.Services.Services.Admin
         public async Task<string> UploadAttachmentAsync(UploadQuestionAttachmentRequest model)
         {
             var question = UnitOfWork.QuestionRepository.GetById(model.QuestionId);
-            try
+            if (question == null)
             {
-                await DeleteAttachmentAsync(model.QuestionId);
+                throw new ArgumentNullException();
             }
-            catch (ContentStorageException ex)
-            {
-                throw new Exception(ex.Message, ex.InnerException);
-            }
-            var fileName = Guid.NewGuid() + "." + model.Extention;
+
+            await DeleteAttachmentAsync(model.QuestionId);
+            var fileName = Guid.NewGuid() + "." + model.Extension;
             
             await _contentStorage.SaveContentAsync(fileName, model.Image, PhotoContainerName);
             question.Image = fileName;
