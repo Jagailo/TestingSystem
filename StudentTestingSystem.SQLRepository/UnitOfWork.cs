@@ -33,7 +33,7 @@ namespace StudentTestingSystem.SQLRepository
         public IUserRepository UserRepository => _userRepository ?? (_userRepository = new UserRepository(DbContext));
 
         private IUserProfileRepository _userProfileRepository;
-        public IUserProfileRepository UserProfileRepository => _userProfileRepository ?? (_userProfileRepository = new UserProfileRepositoty(DbContext));
+        public IUserProfileRepository UserProfileRepository => _userProfileRepository ?? (_userProfileRepository = new UserProfileRepository(DbContext));
 
         private IGroupRepository _groupRepository;
         public IGroupRepository GroupRepository => _groupRepository ?? (_groupRepository = new GroupRepository(DbContext));

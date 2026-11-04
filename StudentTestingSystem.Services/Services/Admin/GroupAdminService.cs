@@ -32,7 +32,6 @@ namespace StudentTestingSystem.Services.Services.Admin
             return await PagedHelper.CreatePagedResultsAsync(groups, page, pageSize, x => x.ToGroupListDto());
         }
 
-        //TODO: Exception
         public async Task<GroupDto> GetGroupByIdAsync(Guid groupId)
         {
             var group = await UnitOfWork.GroupRepository.Query(x => x.Id == groupId)
@@ -59,7 +58,6 @@ namespace StudentTestingSystem.Services.Services.Admin
             await UnitOfWork.SaveChangesAsync();
         }
 
-        //TODO: Exception
         public async Task UpdateGroupAsync(UpdateGroupRequest request)
         {
             var group = await UnitOfWork.GroupRepository.Query(x => x.Id == request.Id)
@@ -74,7 +72,6 @@ namespace StudentTestingSystem.Services.Services.Admin
             await UnitOfWork.SaveChangesAsync();
         }
 
-        //TODO: Exception
         public async Task DeleteGroupAsync(Guid groupId)
         {
             var group = await UnitOfWork.GroupRepository.Query(x => x.Id == groupId)

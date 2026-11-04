@@ -8,6 +8,7 @@ namespace StudentTestingSystem
     {
         protected void Application_Start()
         {
+            ExceptionLogger.Register();
             AutofacConfig.ConfigureContainer();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

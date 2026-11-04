@@ -12,7 +12,6 @@ namespace StudentTestingSystem.SQLRepository.Repositories
         where TEntity : class, new()
     {
         protected readonly DbSet<TEntity> Dbset;
-        // TODO: пофиксить варнинг Ensure.That<T>()
 
         protected RepositoryBaseWithoutKey(ApplicationDbContext dataContext)
         {

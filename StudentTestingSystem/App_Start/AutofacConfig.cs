@@ -39,12 +39,12 @@ namespace StudentTestingSystem
             containerBuilder.RegisterType<ResultRepository>().As<IResultRepository>().AsImplementedInterfaces().InstancePerRequest();
             containerBuilder.RegisterType<SubjectRepository>().As<ISubjectRepository>().AsImplementedInterfaces().InstancePerRequest();
             containerBuilder.RegisterType<ThemeRepository>().As<IThemeRepository>().AsImplementedInterfaces().InstancePerRequest();
-            containerBuilder.RegisterType<UserProfileRepositoty>().As<IUserProfileRepository>().AsImplementedInterfaces().InstancePerRequest();
+            containerBuilder.RegisterType<UserProfileRepository>().As<IUserProfileRepository>().AsImplementedInterfaces().InstancePerRequest();
             containerBuilder.RegisterType<UserRepository>().As<IUserRepository>().AsImplementedInterfaces().InstancePerRequest();
             containerBuilder.RegisterType<UserRoleRepository>().As<IUserRoleRepository>().AsImplementedInterfaces().InstancePerRequest();
 
             // Dependency injection application services
-            // Super adminServices
+            // Super admin services
             containerBuilder.RegisterType<GroupSuperAdminService>().As<IGroupSuperAdminService>().AsImplementedInterfaces().InstancePerRequest();
             containerBuilder.RegisterType<ProfileSuperAdminService>().As<IProfileSuperAdminService>().AsImplementedInterfaces().InstancePerRequest();
             

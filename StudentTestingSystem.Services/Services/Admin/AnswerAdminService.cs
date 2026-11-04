@@ -27,7 +27,6 @@ namespace StudentTestingSystem.Services.Services.Admin
             return answers.Select(x => x.ToAnswerListDto()).ToList();
         }
 
-        //TODO: Exception
         public async Task<AnswerDto> GetAnswerByIdAsync(Guid answerId)
         {
             var answer = await UnitOfWork.AnswerRepository.Query(x => x.Id == answerId)
@@ -56,7 +55,6 @@ namespace StudentTestingSystem.Services.Services.Admin
             await UnitOfWork.SaveChangesAsync();
         }
 
-        //TODO: Exception
         public async Task UpdateAnswerAsync(UpdateAnswerRequest request)
         {
             var answer = await UnitOfWork.AnswerRepository.Query(x => x.Id == request.Id)
@@ -71,7 +69,6 @@ namespace StudentTestingSystem.Services.Services.Admin
             await UnitOfWork.SaveChangesAsync();
         }
 
-        //TODO: Exception
         public async Task DeleteAnswerAsync(Guid answerId)
         {
             var answer = await UnitOfWork.AnswerRepository.Query(x => x.Id == answerId)

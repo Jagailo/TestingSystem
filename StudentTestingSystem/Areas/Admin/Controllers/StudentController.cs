@@ -14,7 +14,7 @@ using System.Web.Mvc;
 
 namespace StudentTestingSystem.Areas.Admin.Controllers
 {
-    //TODO: routing
+    // Note: attribute routing is not enabled (see RouteConfig), URLs are matched by the area routes
     [Route("Admin/[controller]/[action]")]
     public class StudentController : BaseController
     {

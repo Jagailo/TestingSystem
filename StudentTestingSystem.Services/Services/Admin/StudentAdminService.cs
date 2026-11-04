@@ -33,7 +33,6 @@ namespace StudentTestingSystem.Services.Services.Admin
             return students;
         }
 
-        // TODO: Throw exception
         public async Task<ProfileResponse> GetStudentByIdAsync(Guid profileId)
         {
             var student = await UnitOfWork.UserProfileRepository.Query(x => x.Id == profileId)
@@ -46,7 +45,6 @@ namespace StudentTestingSystem.Services.Services.Admin
             return student.ToProfileResponse();
         }
 
-        // TODO: Throw exception
         public async Task UpdateProfileAsync(UpdateStudentProfileRequest request)
         {
             var student = await UnitOfWork.UserProfileRepository.Query(x => x.Id == request.Id)

@@ -16,7 +16,7 @@ namespace StudentTestingSystem.Domain.Models.Theme
 
         public Guid SubjectId { get; set; }
         public virtual Subject.Subject Subject { get; set; }
-        public int TimeLine { get; set; } // Time for passing test in minutes
+        public int TimeLine { get; set; } // Time limit for passing the test, in minutes
 
         public virtual ICollection<Result> Results { get; set; }
         public virtual ICollection<QuestionTheme> QuestionThemes { get; set; }

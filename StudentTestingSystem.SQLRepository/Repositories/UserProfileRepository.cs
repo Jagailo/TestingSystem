@@ -4,9 +4,9 @@ using StudentTestingSystem.Domain.Repositories;
 
 namespace StudentTestingSystem.SQLRepository.Repositories
 {
-    public class UserProfileRepositoty : RepositoryBase<UserProfile, Guid>, IUserProfileRepository
+    public class UserProfileRepository : RepositoryBase<UserProfile, Guid>, IUserProfileRepository
     {
-        public UserProfileRepositoty(ApplicationDbContext context) : base(context)
+        public UserProfileRepository(ApplicationDbContext context) : base(context)
         {
         }
     }

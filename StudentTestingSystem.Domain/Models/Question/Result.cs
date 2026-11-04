@@ -5,8 +5,6 @@ using StudentTestingSystem.Domain.Models.Profile;
 
 namespace StudentTestingSystem.Domain.Models.Question
 {
-    //TODO: Relationships between result, questions, answers, students.
-    //TODO: Two properties CorrectAnswersCount and AllQuestionsCount.
     public class Result : IBaseEntity<Guid>, ICreated
     {
         public Guid Id { get; set; }

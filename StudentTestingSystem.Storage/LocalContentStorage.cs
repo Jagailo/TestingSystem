@@ -35,14 +35,25 @@ namespace StudentTestingSystem.Storage
             }
         }
 
-        public async Task DeleteContentAsync(string fileName, string container = "Photo")
+        public Task DeleteContentAsync(string fileName, string container = "Photo")
         {
-            var contentFolder = Path.Combine(_contentFolder, container);
-            string filepath = Path.Combine(contentFolder, fileName);
-            await Task.Run(() => { File.Delete(filepath); });
+            try
+            {
+                var contentFolder = Path.Combine(_contentFolder, container);
+                string filepath = Path.Combine(contentFolder, fileName);
+                if (File.Exists(filepath))
+                {
+                    File.Delete(filepath);
+                }
+                return Task.CompletedTask;
+            }
+            catch (Exception e)
+            {
+                return Task.FromException(new ContentStorageException("Error deleting content", e));
+            }
         }
 
-        public async Task<byte[]> GetContetAsync(string fileName, string container = "Photo")
+        public async Task<byte[]> GetContentAsync(string fileName, string container = "Photo")
         {
             try
             {
