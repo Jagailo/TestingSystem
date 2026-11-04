@@ -35,6 +35,13 @@ namespace StudentTestingSystem
                 "~/Content/fontawesome-all.min.css",
                 "~/Content/assets/css/paper-dashboard.min.css",
                 "~/Content/site.css"));
+
+            // Minification is only useful for the deployed site: in Debug the files are served as is
+#if DEBUG
+            BundleTable.EnableOptimizations = false;
+#else
+            BundleTable.EnableOptimizations = true;
+#endif
         }
     }
 }

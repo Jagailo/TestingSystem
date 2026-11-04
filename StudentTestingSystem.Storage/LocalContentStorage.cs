@@ -60,13 +60,13 @@ namespace StudentTestingSystem.Storage
                 var contentFolder = Path.Combine(_contentFolder, container);
                 string filepath = Path.Combine(contentFolder, fileName);
 
-                byte[] result;
-                using (FileStream sourceStream = File.Open(filepath, FileMode.Open))
+                using (FileStream sourceStream = File.Open(filepath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var targetStream = new MemoryStream())
                 {
-                    result = new byte[sourceStream.Length];
-                    await sourceStream.ReadAsync(result, 0, (int)sourceStream.Length);
+                    // ReadAsync is allowed to return fewer bytes than requested, so the stream is copied
+                    await sourceStream.CopyToAsync(targetStream);
+                    return targetStream.ToArray();
                 }
-                return result;
             }
             catch (Exception e)
             {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using EnsureThat;
 using StudentTestingSystem.Domain.Infrastructure;
 
 namespace StudentTestingSystem.SQLRepository.Repositories
@@ -15,7 +14,10 @@ namespace StudentTestingSystem.SQLRepository.Repositories
 
         protected RepositoryBaseWithoutKey(ApplicationDbContext dataContext)
         {
-            Ensure.That(dataContext, "dataContext").IsNotNull();
+            if (dataContext == null)
+            {
+                throw new ArgumentNullException(nameof(dataContext));
+            }
             DataContext = dataContext;
             this.Dbset = this.DataContext.Set<TEntity>();
         }
@@ -24,20 +26,29 @@ namespace StudentTestingSystem.SQLRepository.Repositories
 
         public virtual TEntity Add(TEntity entity)
         {
-            Ensure.That(entity, "entity").IsNotNull();
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
             this.Dbset.Add(entity);
             return entity;
         }
 
         public virtual void Delete(TEntity entity)
         {
-            Ensure.That(entity, "entity").IsNotNull();
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
             this.Dbset.Remove(entity);
         }
 
         public virtual void Delete(Expression<Func<TEntity, bool>> where)
         {
-            Ensure.That(where, "where").IsNotNull();
+            if (where == null)
+            {
+                throw new ArgumentNullException(nameof(where));
+            }
             IEnumerable<TEntity> objects = this.Dbset.Where<TEntity>(where).AsEnumerable();
             foreach (TEntity obj in objects)
             {
@@ -52,13 +63,19 @@ namespace StudentTestingSystem.SQLRepository.Repositories
 
         public virtual IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> where)
         {
-            Ensure.That(where, "where").IsNotNull();
+            if (where == null)
+            {
+                throw new ArgumentNullException(nameof(where));
+            }
             return this.Dbset.Where(where);
         }
 
         public virtual void Update(TEntity entity)
         {
-            Ensure.That(entity, "entity").IsNotNull();
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
             this.Dbset.Attach(entity);
             DataContext.Entry(entity).State = EntityState.Modified;
         }

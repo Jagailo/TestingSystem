@@ -4,11 +4,9 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Antlr" />
     <PackageReference Include="Autofac" />
     <PackageReference Include="Autofac.Mvc5" />
     <PackageReference Include="EntityFramework" />
-    <PackageReference Include="Microsoft.ApplicationInsights.Web" />
     <PackageReference Include="Microsoft.AspNet.Identity.Core" />
     <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework" />
     <PackageReference Include="Microsoft.AspNet.Identity.Owin" />
@@ -19,9 +17,6 @@
     <PackageReference Include="Microsoft.Owin.Host.SystemWeb" />
     <PackageReference Include="Microsoft.Owin.Security" />
     <PackageReference Include="Microsoft.Owin.Security.Cookies" />
-    <PackageReference Include="Microsoft.Owin.Security.OAuth" />
-    <PackageReference Include="Newtonsoft.Json" />
-    <PackageReference Include="WebGrease" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -194,9 +189,6 @@
     <Content Include="Content\webfonts\fa-solid-900.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Areas\SuperAdmin\Views\web.config" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\Subject\Index.cshtml" />
@@ -475,7 +467,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="Exists('$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets')" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
     <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
   </Target>

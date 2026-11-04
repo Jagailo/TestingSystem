@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ensure.That" />
     <PackageReference Include="EntityFramework" />
     <PackageReference Include="Microsoft.AspNet.Identity.Core" />
     <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework" />

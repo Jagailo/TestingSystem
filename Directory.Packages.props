@@ -6,12 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageVersion Include="Antlr" Version="3.5.0.2" />
     <PackageVersion Include="Autofac" Version="9.3.4" />
     <PackageVersion Include="Autofac.Mvc5" Version="7.0.0" />
-    <PackageVersion Include="Ensure.That" Version="10.1.0" />
     <PackageVersion Include="EntityFramework" Version="6.5.2" />
-    <PackageVersion Include="Microsoft.ApplicationInsights.Web" Version="3.2.0" />
     <PackageVersion Include="Microsoft.AspNet.Identity.Core" Version="2.2.4" />
     <PackageVersion Include="Microsoft.AspNet.Identity.EntityFramework" Version="2.2.4" />
     <PackageVersion Include="Microsoft.AspNet.Identity.Owin" Version="2.2.4" />
@@ -22,6 +19,10 @@
     <PackageVersion Include="Microsoft.Owin.Host.SystemWeb" Version="4.2.3" />
     <PackageVersion Include="Microsoft.Owin.Security" Version="4.2.3" />
     <PackageVersion Include="Microsoft.Owin.Security.Cookies" Version="4.2.3" />
+  </ItemGroup>
+
+  <ItemGroup Label="Transitive pins">
+    <PackageVersion Include="Antlr" Version="3.5.0.2" />
     <PackageVersion Include="Microsoft.Owin.Security.OAuth" Version="4.2.3" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageVersion Include="WebGrease" Version="1.6.0" />
